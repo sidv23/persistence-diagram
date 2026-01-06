@@ -84,7 +84,7 @@ function resizeAll() {
 
   tPx = Math.max(0, Math.min(maxTPx, tPx));
   tSlider.value = String(Math.round(tPx));
-  tVal.textContent = String(Math.round(tPx));
+  tVal.textContent = (tPx / 200).toPrecision(3);
 }
 
 const ro = new ResizeObserver(() => {
@@ -104,7 +104,7 @@ resetBtn.addEventListener('click', () => {
 // slider input (no persistence recompute)
 tSlider.addEventListener('input', () => {
   tPx = Number(tSlider.value);
-  tVal.textContent = String(Math.round(tPx));
+  tVal.textContent = (tPx / 200).toPrecision(2);
   drawAll();
 });
 
@@ -278,7 +278,7 @@ function drawLegendBottomRight(ctx, frameRight, frameBottom) {
   // components (H0) filled marker
   ctx.beginPath();
   ctx.fillStyle = COLORS.h0;
-  ctx.arc(x + 16, y + 19, 5, 0, Math.PI * 2);
+  ctx.arc(x + 16, y + 19, 3, 0, Math.PI * 2);
   ctx.fill();
   ctx.strokeStyle = 'rgba(0,0,0,0.18)';
   ctx.stroke();
@@ -289,7 +289,7 @@ function drawLegendBottomRight(ctx, frameRight, frameBottom) {
   ctx.beginPath();
   ctx.strokeStyle = COLORS.h1;
   ctx.lineWidth = 2;
-  ctx.arc(x + 16, y + 40, 5.5, 0, Math.PI * 2);
+  ctx.arc(x + 16, y + 40, 3.5, 0, Math.PI * 2);
   ctx.stroke();
   ctx.fillStyle = COLORS.text;
   ctx.fillText(line2, x + 30, y + 44);

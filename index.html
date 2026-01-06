@@ -25,11 +25,11 @@
       box-sizing: border-box;
       padding: var(--pad);
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto 1fr;
       gap: var(--pad);
     }
     @media (max-width: 900px) {
-      .wrap { grid-template-columns: 1fr; }
+      .wrap { grid-template-rows: auto auto; }
     }
     .col {
       background: var(--panel);
@@ -43,10 +43,10 @@
       box-shadow: 0 10px 30px rgba(0,0,0,.06);
     }
     .title {
-      margin: 0 0 8px 0;
-      font-weight: 650;
+      margin: 0 0 4px 0;
+      font-weight: 600;
       letter-spacing: .2px;
-      font-size: 14px;
+      font-size: 12px;
     }
     .square {
       width: 100%;
@@ -67,36 +67,33 @@
       display: block;
       touch-action: none;
     }
-    .controls {
+    .controls-panel {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
       padding: 10px 12px;
-      margin: 4px 0 12px 0;
       border: 1px solid var(--border);
       border-radius: 12px;
       background: rgba(255,255,255,0.75);
     }
-    .controls .lbl {
+    .controls-panel .lbl {
       font-size: 12px;
       color: var(--muted);
       white-space: nowrap;
     }
-    .controls input[type="range"] { flex: 1; }
-    .controls .val {
+    .controls-panel .val {
       font-variant-numeric: tabular-nums;
       font-size: 12px;
       color: var(--text);
       min-width: 64px;
       text-align: right;
     }
-    .controls .spacer { flex: 0 0 10px; }
-    .controls .mini {
+    .controls-panel .mini {
       display: flex;
       align-items: center;
       gap: 6px;
     }
-    .controls input[type="number"]{
+    .controls-panel input[type="number"]{
       width: 64px;
       padding: 6px 8px;
       border-radius: 10px;
@@ -106,41 +103,80 @@
       color: var(--text);
       font-variant-numeric: tabular-nums;
     }
-    .controls button{
-  padding: 6px 10px;
-  border-radius: 10px;
-  border: 1px solid var(--border);
-  font-size: 12px;
-  background: #fff;
-  color: var(--text);
-  cursor: pointer;
-}
-.controls button:hover{
-  background: rgba(0,0,0,0.04);
-}
-.controls button:active{
-  background: rgba(0,0,0,0.08);
-}
+    .controls-panel button{
+      padding: 6px 10px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      font-size: 12px;
+      background: #fff;
+      color: var(--text);
+      cursor: pointer;
+      width: fit-content;
+    }
+    .controls-panel button:hover{
+      background: rgba(0,0,0,0.04);
+    }
+    .controls-panel button:active{
+      background: rgba(0,0,0,0.08);
+    }
+    .controls-panel .range {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+      min-width: 0;
+    }
+    .controls-panel .range input[type="range"] {
+      flex: 1;
+      min-width: 120px;
+    }
+    .controls-panel .range .val {
+      min-width: 54px;
+      text-align: right;
+    }
+    .row-top {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--pad);
+    }
+    .row-bottom {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--pad);
+      min-height: 0;
+    }
+    @media (max-width: 900px) {
+      .row-bottom { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
   <div class="wrap">
-    <div class="col">
-      <div class="title">Point cloud</div>
-      <div class="controls">
-        <label class="lbl" for="tSlider">resolution t</label>
-        <input id="tSlider" type="range" min="0" max="200" step="1" value="0" />
-        <div class="val"><span id="tVal">0</span> px</div>
-        <div class="mini"><span class="lbl">k</span><input id="kInput" type="number" min="0" max="49" step="1" value="0" /></div>
-        <div class="mini"><span class="lbl">p</span><input id="pInput" type="number" min="1" max="10" step="0.5" value="1" /></div>
-        <button id="resetBtn" type="button" title="Jitter">jitter</button>
+    <div class="row-top">
+      <div class="col">
+        <div class="controls-panel">
+          <button id="resetBtn" type="button" title="Jitter">jitter</button>
+          <div class="mini"><span class="lbl">k</span><input id="kInput" type="number" min="0" max="49" step="1" value="0" /></div>
+          <div class="mini"><span class="lbl">p</span><input id="pInput" type="number" min="1" max="10" step="0.5" value="1" /></div>
+          <div class="range">
+            <label class="lbl" for="tSlider">resolution t</label>
+            <input id="tSlider" type="range" min="0" max="200" step="1" value="0" />
+            <div class="val"><span id="tVal">0</span></div>
+          </div>
+        </div>
       </div>
-      <div class="square" id="ptsBox"><canvas id="pts"></canvas></div>
     </div>
 
-    <div class="col">
-      <div class="title">Persistence diagram</div>
-      <div class="square" id="pdBox"><canvas id="pd"></canvas></div>
+    <div class="row-bottom">
+      <div class="col">
+        <div class="title">Point cloud</div>
+        <div class="square" id="ptsBox"><canvas id="pts"></canvas></div>
+      </div>
+
+      <div class="col">
+        <div class="title">Persistence diagram</div>
+        <div class="square" id="pdBox"><canvas id="pd"></canvas></div>
+      </div>
     </div>
   </div>
 
