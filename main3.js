@@ -36,6 +36,11 @@ const tVal = document.getElementById('tVal');
 const kInput = document.getElementById('kInput');
 const pInput = document.getElementById('pInput');
 const resetBtn = document.getElementById('resetBtn');
+const textScale = (() => {
+  const raw = getComputedStyle(document.documentElement).getPropertyValue('--text-scale').trim();
+  const val = Number(raw);
+  return Number.isFinite(val) && val > 0 ? val : 1;
+})();
 
 
 // square size in CSS pixels
@@ -251,7 +256,7 @@ worker.onmessage = (ev) => {
 // ---------- legend (bottom-right) ----------
 function drawLegendBottomRight(ctx, frameRight, frameBottom) {
   const pad = 10;
-  const font = '12px system-ui, sans-serif';
+  const font = `${12 * textScale}px system-ui, sans-serif`;
   const line1 = 'components (H0)';
   const line2 = 'loops (H1)';
 
@@ -374,12 +379,12 @@ function drawPersistenceDiagram() {
 
   // ticks + labels
   const ticks = 5;
-  ctx.lineWidth = 1;
+  ctx.lineWidth = 2;
   ctx.strokeStyle = 'rgba(0,0,0,0.12)';
   ctx.fillStyle = COLORS.muted;
-  ctx.font = '11px system-ui, sans-serif';
+  ctx.font = `${12 * textScale}px system-ui, sans-serif`;
 
-  for (let i = 1; i < ticks; i++) {
+  for (let i = 0; i <= ticks; i++) {
     const t = i / ticks;
     const x = m + t * inner;
 
@@ -398,7 +403,7 @@ function drawPersistenceDiagram() {
   }
 
   ctx.fillStyle = COLORS.text;
-  ctx.font = '13px system-ui, sans-serif';
+  ctx.font = `${13 * textScale}px system-ui, sans-serif`;
   ctx.fillText('birth', m + inner / 2 - 16, sizePx - 16);
   ctx.save();
   ctx.translate(18, m + inner / 2 + 18);
