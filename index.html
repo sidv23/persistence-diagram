@@ -25,11 +25,11 @@
       box-sizing: border-box;
       padding: var(--pad);
       display: grid;
-      grid-template-rows: auto 1fr;
+      grid-template-columns: 1fr 2fr 2fr;
       gap: var(--pad);
     }
     @media (max-width: 900px) {
-      .wrap { grid-template-rows: auto auto; }
+      .wrap { grid-template-columns: 1fr; }
     }
     .col {
       background: var(--panel);
@@ -43,10 +43,10 @@
       box-shadow: 0 10px 30px rgba(0,0,0,.06);
     }
     .title {
-      margin: 0 0 4px 0;
-      font-weight: 600;
+      margin: 0 0 8px 0;
+      font-weight: 650;
       letter-spacing: .2px;
-      font-size: 12px;
+      font-size: 14px;
     }
     .square {
       width: 100%;
@@ -69,31 +69,43 @@
     }
     .controls-panel {
       display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 10px 12px;
+      flex-direction: column;
+      gap: 10px;
+      padding: 12px;
       border: 1px solid var(--border);
       border-radius: 12px;
       background: rgba(255,255,255,0.75);
     }
-    .controls-panel .lbl {
+    .controls-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+    }
+    .controls-row.range input[type="range"] {
+      flex: 1;
+    }
+    .controls-row.inputs {
+      justify-content: space-between;
+    }
+    .controls-row .lbl {
       font-size: 12px;
       color: var(--muted);
       white-space: nowrap;
     }
-    .controls-panel .val {
+    .controls-row .val {
       font-variant-numeric: tabular-nums;
       font-size: 12px;
       color: var(--text);
       min-width: 64px;
       text-align: right;
     }
-    .controls-panel .mini {
+    .controls-row .mini {
       display: flex;
       align-items: center;
       gap: 6px;
     }
-    .controls-panel input[type="number"]{
+    .controls-row input[type="number"]{
       width: 64px;
       padding: 6px 8px;
       border-radius: 10px;
@@ -119,64 +131,35 @@
     .controls-panel button:active{
       background: rgba(0,0,0,0.08);
     }
-    .controls-panel .range {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex: 1;
-      min-width: 0;
-    }
-    .controls-panel .range input[type="range"] {
-      flex: 1;
-      min-width: 120px;
-    }
-    .controls-panel .range .val {
-      min-width: 54px;
-      text-align: right;
-    }
-    .row-top {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: var(--pad);
-    }
-    .row-bottom {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--pad);
-      min-height: 0;
-    }
-    @media (max-width: 900px) {
-      .row-bottom { grid-template-columns: 1fr; }
-    }
   </style>
 </head>
 <body>
   <div class="wrap">
-    <div class="row-top">
-      <div class="col">
-        <div class="controls-panel">
-          <button id="resetBtn" type="button" title="Jitter">jitter</button>
+    <div class="col">
+      <div class="controls-panel">
+        <div class="controls-row range">
+          <label class="lbl" for="tSlider">resolution t</label>
+          <input id="tSlider" type="range" min="0" max="200" step="1" value="0" />
+          <div class="val"><span id="tVal">0</span> </div>
+        </div>
+        <div class="controls-row inputs">
           <div class="mini"><span class="lbl">k</span><input id="kInput" type="number" min="0" max="49" step="1" value="0" /></div>
           <div class="mini"><span class="lbl">p</span><input id="pInput" type="number" min="1" max="10" step="0.5" value="1" /></div>
-          <div class="range">
-            <label class="lbl" for="tSlider">resolution t</label>
-            <input id="tSlider" type="range" min="0" max="200" step="1" value="0" />
-            <div class="val"><span id="tVal">0</span></div>
-          </div>
+        </div>
+        <div class="controls-row">
+          <button id="resetBtn" type="button" title="Jitter">jitter</button>
         </div>
       </div>
     </div>
 
-    <div class="row-bottom">
-      <div class="col">
-        <div class="title">Point cloud</div>
-        <div class="square" id="ptsBox"><canvas id="pts"></canvas></div>
-      </div>
+    <div class="col">
+      <div class="title">Point cloud</div>
+      <div class="square" id="ptsBox"><canvas id="pts"></canvas></div>
+    </div>
 
-      <div class="col">
-        <div class="title">Persistence diagram</div>
-        <div class="square" id="pdBox"><canvas id="pd"></canvas></div>
-      </div>
+    <div class="col">
+      <div class="title">Persistence diagram</div>
+      <div class="square" id="pdBox"><canvas id="pd"></canvas></div>
     </div>
   </div>
 
