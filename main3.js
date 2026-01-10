@@ -89,7 +89,7 @@ function resizeAll() {
 
   tPx = Math.max(0, Math.min(maxTPx, tPx));
   tSlider.value = String(Math.round(tPx));
-  tVal.textContent = (tPx / 200).toPrecision(3);
+  tVal.textContent = (tPx / 200).toFixed(2);
 }
 
 const ro = new ResizeObserver(() => {
@@ -384,7 +384,7 @@ function drawPersistenceDiagram() {
   ctx.fillStyle = COLORS.muted;
   ctx.font = `${12 * textScale}px system-ui, sans-serif`;
 
-  for (let i = 0; i <= ticks; i++) {
+  for (let i = 1; i <= ticks; i++) {
     const t = i / ticks;
     const x = m + t * inner;
 
@@ -453,8 +453,8 @@ function drawPersistenceDiagram() {
 
   ctx.save();
   ctx.setLineDash([4, 4]);
-  ctx.lineWidth = 1;
-  ctx.strokeStyle = 'rgba(0,0,0,0.35)';
+  ctx.lineWidth = 3;
+  ctx.strokeStyle = 'rgba(0,0,0,0.5)';
 
   // horizontal to the diagonal
   ctx.beginPath();
